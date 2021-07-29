@@ -1,5 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
 .App {
   text-align: center;
+}
+
+.logout-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
+button {
+  &, &:focus {
+    border: none;
+  }
+  &:disabled {
+    pointer-events: none;
+    opacity: .6;
+  }
+}
+
+fieldset {
+
 }
 
 .App-logo {

@@ -1,0 +1,38 @@
+@import "src/scss/_variables";
+
+.sign-up-page {
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+  }
+
+  &__radio-fieldset {
+    margin-top: 20px;
+
+    legend {
+      text-align: left;
+    }
+  }
+
+  &__btn {
+    padding: 10px;
+    width: 100%;
+    color: white;
+    margin-top: 15px;
+    border-radius: 4px;
+    transition: all $delay;
+    cursor: pointer;
+    background-color: $primary-main;
+
+    &:hover {
+      transition: all $delay;
+      background-color: rgba($primary-main, .8);
+    }
+  }
+
+  &__error-text {
+    color: red;
+  }
+}
