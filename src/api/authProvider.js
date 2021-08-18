@@ -1,40 +1,41 @@
+import axiosClient from "./axiosClient";
+
 const apiUrl = process.env.REACT_APP_BACKEND_URL
 
 const authProvider = {
     signIn: async (nameOrEmail, password) => {
         try {
-            const res = await fetch(`${apiUrl}/api/sign-in`, {
-                method: "POST",
+            const res = await axiosClient.post(`${apiUrl}/api/sign-in`, {
+                nameOrEmail,
+                password
+                }, {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    nameOrEmail,
-                    password
-                })
             });
-
-            let body = null;
-            try {
-                body = await res.json();
-                localStorage.setItem('accessToken', body.accessToken);
-            } catch (e) {
-                console.error(e)
-            }
+            localStorage.setItem("accessToken", res.data.accessToken);
 
             return {
-                body,
+                body: res.data,
                 status: res.status
             };
+
         } catch (e) {
-            console.error(e);
+            console.log(e.response);
+            return {
+                status: e.response.status,
+                body: e.response.data
+            }
         }
+    },
+    signUp: () => {
+
     },
     logout: () => {
         localStorage.removeItem('accessToken');
         return Promise.resolve()
     },
-    isAuthorized: () => !!localStorage.getItem('token'),
+    isAuthorized: () => !!localStorage.getItem('accessToken'),
 };
 
 export default authProvider;

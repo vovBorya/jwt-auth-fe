@@ -10,7 +10,7 @@ import Container from '@material-ui/core/Container';
 
 import SignIn from "../../pages/SignIn";
 import SignUp from "../../pages/SignUp";
-import HomePage from "../../pages/HomePage";
+import Home from "../../pages/HomePage";
 import NotFoundPage from "../../pages/NotFound";
 
 import authProvider from "../../api/authProvider";
@@ -27,14 +27,18 @@ function App() {
         const isAuthorized = authProvider.isAuthorized()
         setIsAuthorized(isAuthorized);
 
-        if (!isAuthorized) {
+        console.log({isAuthorized});
+
+        if (isAuthorized) {
+            history.push("/home");
+        } else {
             history.push("/sign-in");
         }
-    }, []);
+    }, [history]);
 
-    const handleLogoutClick = () => {
+    const handleLogoutClick = async () => {
         setIsAuthorized(false);
-        authProvider.logout();
+        await authProvider.logout();
     }
 
   return (
@@ -42,7 +46,7 @@ function App() {
           <div className="App">
               {isAuthorized && (
                   <a
-                      onClick={authProvider.logout}
+                      onClick={handleLogoutClick}
                       href="/sign-in"
                       className="logout-btn"
                   >
@@ -61,7 +65,7 @@ function App() {
                           <SignUp {...{setIsAuthorized}} />
                       </Route>
                       <Route path="/home">
-                          <HomePage />
+                          <Home />
                       </Route>
                       <Route path="/404" component={NotFoundPage} />
                       <Redirect to="/404" />

@@ -1,0 +1,37 @@
+@import "src/scss/_variables";
+
+.btn {
+  padding: 10px;
+  width: max-content;
+  color: white;
+  margin-top: 15px;
+  border-radius: 4px;
+  transition: all $delay;
+  cursor: pointer;
+  background-color: $primary-dark;
+
+  &:hover {
+    transition: all $delay;
+    background-color: rgba($primary-dark, .8);
+  }
+
+  &.secondary {
+    background-color: $secondary-dark;
+
+    &:hover {
+      background-color: rgba($secondary-dark, .8);
+    }
+  }
+
+  &, &:focus {
+    border: none;
+  }
+  &:disabled {
+    pointer-events: none;
+    opacity: .6;
+  }
+
+  &.fullWidth {
+    width: 100%;
+  }
+}

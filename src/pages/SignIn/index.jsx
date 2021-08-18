@@ -2,6 +2,9 @@ import React, {useState} from 'react';
 import {Link, useHistory} from "react-router-dom";
 import { TextField } from '@material-ui/core';
 
+import Button from "../../components/Button";
+import ErrorText from "../../components/ErrorText";
+
 import authProvider from "../../api/authProvider";
 
 import "./SignIn.scss";
@@ -18,7 +21,8 @@ const SignIn = ({ setIsAuthorized }) => {
         e.preventDefault();
         setErrorText(null);
 
-        const { body, status } = await authProvider.signIn(nameOrEmailValue, passwordValue);
+        const res = await authProvider.signIn(nameOrEmailValue, passwordValue),
+            { body, status } = res ?? {};
 
         if (status === 200) {
             history.push("/home");
@@ -46,13 +50,12 @@ const SignIn = ({ setIsAuthorized }) => {
                     type="password"
                 />
 
-                <button
+                <Button
+                    fullWidth
                     type="submit"
+                    label="Sign in"
                     disabled={!nameOrEmailValue.length || !passwordValue.length}
-                    className="sign-in-page__btn sign-in-page__btn"
-                >
-                    Sign in
-                </button>
+                />
 
                 <Link
                     to="sign-up"
@@ -62,11 +65,7 @@ const SignIn = ({ setIsAuthorized }) => {
                 </Link>
             </form>
 
-            {errorText && (
-                <p className="sign-in-page__error-text">
-                    {errorText}
-                </p>
-            )}
+            {errorText && <ErrorText text={errorText}/>}
         </div>
     );
 };

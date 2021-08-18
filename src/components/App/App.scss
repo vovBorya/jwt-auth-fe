@@ -14,20 +14,6 @@
   right: 20px;
 }
 
-button {
-  &, &:focus {
-    border: none;
-  }
-  &:disabled {
-    pointer-events: none;
-    opacity: .6;
-  }
-}
-
-fieldset {
-
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;

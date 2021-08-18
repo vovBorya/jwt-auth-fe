@@ -2,12 +2,15 @@ import React, {useState} from 'react';
 import { TextField, RadioGroup, Radio, FormLabel, FormControlLabel } from "@material-ui/core";
 import { Link, useHistory} from "react-router-dom";
 
+import Button from "../../components/Button";
+
 import "./SignUp.scss";
+import ErrorText from "../../components/ErrorText";
 
 const SignUp = () => {
     const history = useHistory();
 
-    const [error, setError] = useState(null);
+    const [errorText, setErrorText] = useState(null);
     const [roleValue, setRoleValue] = useState("user");
     const [ageValue, setAgeValue] = useState("");
     const [nameValue, setNameValue] = useState("");
@@ -16,7 +19,7 @@ const SignUp = () => {
 
     const onSubmit = async e => {
         e.preventDefault();
-        setError(null);
+        setErrorText(null);
         try {
             const res = await fetch("http://localhost:8080/api/sign-up", {
                 method: "POST",
@@ -36,7 +39,7 @@ const SignUp = () => {
                 history.push("/home")
             } else if (res.status === 409) {
                 const { message } = await res.json();
-                setError(message);
+                setErrorText(message);
             }
         } catch (e) {
             console.error(e);
@@ -90,13 +93,13 @@ const SignUp = () => {
                     </RadioGroup>
                 </fieldset>
 
-                <button
+                <Button
                     type="submit"
+                    label="Sign up"
+                    fullWidth
+                    variant="secondary"
                     disabled={!emailValue.length || !passwordValue.length || !nameValue}
-                    className="sign-up-page__btn"
-                >
-                    Sign up
-                </button>
+                />
 
                 <Link
                     to="sign-in"
@@ -105,11 +108,7 @@ const SignUp = () => {
                     Sign in
                 </Link>
             </form>
-            {error && (
-                <p className="sign-up-page__error-text">
-                    {error}
-                </p>
-            )}
+            {errorText && <ErrorText text={errorText}/>}
         </div>
     );
 };
